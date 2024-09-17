@@ -7,7 +7,6 @@ const navItems = [
     text: "Dashboard",
     image: "/dashboard.svg",
     selImage: "/dashboardSel.svg",
-    url: "/dashboard",
   },
   {
     name: "leaderboard",
@@ -77,9 +76,9 @@ function Navigation(props) {
               />
             )}
             <div
-              className=" py-[10px] no-underline text-gray-700 rounded flex items-center mx-4 w-60"
+              className=" py-[10px] no-underline text-gray-700 rounded flex items-center mx-6 w-60"
               style={
-                isSelected ? { backgroundColor: "#FF9040", color: "white" } : {}
+                isSelected ? { backgroundColor: "#FF9040", color: "white", fontWeight : "600" } : {}
               }
             >
               <img
