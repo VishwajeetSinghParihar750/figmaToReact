@@ -1,47 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Wrapper from "./ui/Wrapper";
 import CustomPagination from "./ui/CustomPagination";
 import AddWalletModal from "./ui/AddWalletModal";
+import EditWalletModal from "./ui/EditWalletModal"; // Import EditWalletModal
 import WalletCard from "./ui/WalletCard";
+import axios from "axios";
 
-function Wallets(props) {
-  const [wallets, setWallets] = useState([
-    {
-      image: "/tronCry.svg",
-      name: "TRON (TRX)",
-      address: "0x1234abcd5678efgh9012ijkl3456mnop7890qrst",
-      balance: "$10,000",
-      status: "Active",
-    },
-    {
-      image: "/ethereumCry.svg",
-      name: "Ethereum (ETH)",
-      address: "0x2345bcde6789fghi0123jklm4567nopq8901rstu",
-      balance: "$5,000",
-      status: "Inactive",
-    },
-    {
-      image: "/solanaCry.svg",
-      name: "Solana (SOL)",
-      address: "0x3456cdef7890ghij1234klmn5678opqr9012stuv",
-      balance: "$15,000",
-      status: "Active",
-    },
-    {
-      image: "/solanaCry.svg",
-      name: "Solana (SOL)",
-      address: "0x4567defg8901hijk2345lmno6789pqrs0123tuvw",
-      balance: "$7,500",
-      status: "Active",
-    },
-    {
-      image: "/ethereumCry.svg",
-      name: "Ethereum (ETH)",
-      address: "0x5678efgh9012ijkl3456mnop7890qrst1234uvwx",
-      balance: "$3,200",
-      status: "Inactive",
-    },
-  ]);
+function Wallets() {
+  const [wallets, setWallets] = useState([]);
+  const [currentWallet, setCurrentWallet] = useState(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const fetchWallets = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/wallets`
+      );
+      setWallets(response.data);
+    } catch (error) {
+      console.error("Error fetching wallets:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchWallets();
+  }, []);
+
+  const handleAddSubmit = async (newWallet) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/wallets`,
+        newWallet
+      );
+      setWallets([response.data, ...wallets]);
+    } catch (error) {
+      console.error("Error adding wallet:", error);
+    }
+    closeAddModal();
+  };
+
+  const handleEditSubmit = async (updatedWallet) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/wallets/${currentWallet.id}`,
+        updatedWallet
+      );
+      setWallets(
+        wallets.map((wallet) =>
+          wallet.id === currentWallet.id ? response.data : wallet
+        )
+      );
+    } catch (error) {
+      console.error("Error updating wallet:", error);
+    }
+    closeEditModal();
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/wallets/${id}`);
+      setWallets(wallets.filter((wallet) => wallet.id !== id));
+    } catch (error) {
+      console.error("Error deleting wallet:", error);
+    }
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
@@ -53,24 +76,16 @@ function Wallets(props) {
     currentPage * rowsPerPage
   );
 
-  // modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openAddModal = () => setIsAddModalOpen(true);
+  const closeAddModal = () => setIsAddModalOpen(false);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  const handleSubmit = (newWallet) => {
-    const newWalletEntry = {
-      image: newWallet.image,
-      name: newWallet.chain,
-      address: newWallet.address,
-      balance: "$0.00", // Default balance for new wallet (can be changed)
-      status: "Active", // Default status for new wallet (can be changed)
-    };
-
-    // Update the wallets state with the new wallet entry
-    setWallets([newWalletEntry, ...wallets]);
-    closeModal();
+  const openEditModal = (wallet) => {
+    setCurrentWallet(wallet);
+    setIsEditModalOpen(true);
+  };
+  const closeEditModal = () => {
+    setCurrentWallet(null);
+    setIsEditModalOpen(false);
   };
 
   return (
@@ -80,7 +95,7 @@ function Wallets(props) {
           <h2 className="text-3xl text-gray-800 max-xs:hidden">Wallets</h2>
           <button
             className="px-6 py-3 bg-orangeNew text-white flex items-center justify-center rounded-lg font-semibold max-xs:flex-1"
-            onClick={openModal}
+            onClick={openAddModal}
           >
             <img src="/plusWhite.svg" alt="" className="mr-2" />
             <span>Add New Wallet</span>
@@ -145,10 +160,16 @@ function Wallets(props) {
                     </td>
                     <td className="py-3 px-4 max-[750px]:px-1">
                       <div className="flex items-center">
-                        <button className="text-blue-600 hover:text-blue-800 font-semibold w-10">
+                        <button
+                          className="text-blue-600 hover:text-blue-800 font-semibold w-10"
+                          onClick={() => openEditModal(row)}
+                        >
                           <img src="/editPen.svg" alt="" />
                         </button>
-                        <button className="text-red-600 hover:text-red-800 ml-4 font-semibold max-lg:ml-2">
+                        <button
+                          className="text-red-600 hover:text-red-800 ml-4 font-semibold max-lg:ml-2"
+                          onClick={() => handleDelete(row.id)}
+                        >
                           <img src="/bin.svg" alt="" />
                         </button>
                       </div>
@@ -168,6 +189,8 @@ function Wallets(props) {
                 address={wallet.address}
                 balance={wallet.balance}
                 status={wallet.status}
+                onEdit={() => openEditModal(wallet)}
+                onDelete={() => handleDelete(wallet.id)}
               />
             ))}
           </div>
@@ -182,9 +205,15 @@ function Wallets(props) {
       </div>
 
       <AddWalletModal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        onSubmit={handleSubmit}
+        isOpen={isAddModalOpen}
+        onRequestClose={closeAddModal}
+        onSubmit={handleAddSubmit}
+      />
+      <EditWalletModal
+        isOpen={isEditModalOpen}
+        onRequestClose={closeEditModal}
+        onSubmit={handleEditSubmit}
+        wallet={currentWallet}
       />
     </Wrapper>
   );

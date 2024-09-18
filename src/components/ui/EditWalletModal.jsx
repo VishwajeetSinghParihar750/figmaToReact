@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
 const customStyles = {
   overlay: { background: "rgba(0, 0, 0, .5)", zIndex: "100" },
-
   content: {
     top: "50%",
     left: "50%",
@@ -17,18 +16,24 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function AddWalletModal({ isOpen, onRequestClose, onSubmit }) {
+function EditWalletModal({ isOpen, onRequestClose, onSubmit, wallet }) {
   const [selectedImage, setSelectedImage] = useState("/solanaCry.svg");
   const [chain, setChain] = useState("Solana");
   const [address, setAddress] = useState("");
 
-  // Handle image click and update both selected image and chain
+  useEffect(() => {
+    if (wallet) {
+      setSelectedImage(wallet.image);
+      setChain(wallet.name);
+      setAddress(wallet.address);
+    }
+  }, [wallet]);
+
   const handleImageClick = (imageSrc, chainName) => {
     setSelectedImage(imageSrc);
     setChain(chainName);
   };
 
-  // Handle chain change and update the image
   const handleChainChange = (e) => {
     const selectedChain = e.target.value;
     setChain(selectedChain);
@@ -45,6 +50,7 @@ function AddWalletModal({ isOpen, onRequestClose, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({
+      id: wallet.id, // Include the wallet ID for updating
       chain,
       address,
       image: selectedImage,
@@ -56,11 +62,11 @@ function AddWalletModal({ isOpen, onRequestClose, onSubmit }) {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       style={customStyles}
-      contentLabel="Add Wallet Modal"
+      contentLabel="Edit Wallet Modal"
     >
       <div className="w-full h-full bg-white rounded-lg">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl">Add New Wallet</h3>
+          <h3 className="text-xl">Edit Wallet</h3>
           <button
             className="text-gray-500 hover:text-gray-800 w-4"
             onClick={onRequestClose}
@@ -141,7 +147,7 @@ function AddWalletModal({ isOpen, onRequestClose, onSubmit }) {
             type="submit"
             className="w-full bg-orangeNew rounded-lg text-white py-2"
           >
-            Add Wallet
+            Update Wallet
           </button>
         </form>
       </div>
@@ -149,4 +155,4 @@ function AddWalletModal({ isOpen, onRequestClose, onSubmit }) {
   );
 }
 
-export default AddWalletModal;
+export default EditWalletModal;
