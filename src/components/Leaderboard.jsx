@@ -138,7 +138,7 @@ const Leaderboard = () => {
             className="grid grid-cols-3 gap-6 max-sm:gap-3 "
             style={{ alignItems: "end" }}
           >
-            <div className="bg-[#F7FFEA] border-[#E4FFBB] border-2 rounded-lg max-sm:rounded-t-3xl p-4 text-center shadow-md relative h-[310px]  max-w-52 lg:w-52  flex flex-col justify-end">
+            <div className="bg-[#F7FFEA] border-[#E4FFBB] border-2 rounded-lg max-sm:rounded-t-3xl p-4 max-xs:p-2 text-center shadow-md relative h-[310px]  max-w-52 lg:w-52  flex flex-col justify-end">
               <div className=" max-sm:scale-75 max-xs:scale-50 absolute top-0 left-1/2">
                 <div className="absolute overflow-hidden top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] rounded-full border-4 border-[#ADEF44]">
                   <img
@@ -208,7 +208,7 @@ const Leaderboard = () => {
               </div>
             </div>
 
-            <div className="bg-[#FFF9E2] border-[#FFEEAD] border-2 rounded-lg max-sm:rounded-t-3xl p-4 text-center shadow-md relative h-[340px] max-w-52 lg:w-52  flex flex-col justify-end">
+            <div className="bg-[#FFF9E2] border-[#FFEEAD] border-2 rounded-lg max-sm:rounded-t-3xl p-4 max-xs:p-2 text-center shadow-md relative h-[340px] max-w-52 lg:w-52  flex flex-col justify-end">
               <div className=" max-sm:scale-75 max-xs:scale-50  absolute top-0 left-1/2">
                 <div className="absolute overflow-hidden top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] rounded-full border-4 border-[#FFCA28]">
                   <img
@@ -278,7 +278,7 @@ const Leaderboard = () => {
               </div>
             </div>
 
-            <div className="bg-[#E9FFF4] border-[#C1FBDF] border-2 rounded-lg max-sm:rounded-t-3xl p-4 text-center shadow-md relative h-[310px]  max-w-52 lg:w-52 flex flex-col justify-end">
+            <div className="bg-[#E9FFF4] border-[#C1FBDF] border-2 rounded-lg max-sm:rounded-t-3xl p-4 max-xs:p-2 text-center shadow-md relative h-[310px]  max-w-52 lg:w-52 flex flex-col justify-end">
               <div className=" max-sm:scale-75 max-xs:scale-50  absolute top-0 left-1/2">
                 <div className="absolute overflow-hidden top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] rounded-full border-4 border-[#49E89C]">
                   <img
@@ -370,11 +370,11 @@ const Leaderboard = () => {
           <table className="w-full text-left border-separate border-spacing-y-2 border-spacing-x-0 max-sm:text-sm">
             <thead>
               <tr className="bg-gray-100">
-                <th className="py-2 px-4 font-semibold  max-sm:text-xxs max-sm:px-2 max-xs:px-1">
+                <th className="py-2 px-4 font-semibold w-16 max-sm:w-10  max-sm:text-xxs max-sm:px-2 max-xs:px-1">
                   <img
                     src="/upDown.svg"
                     alt=""
-                    className="px-2  absolute max-sm:p-0 w-7 "
+                    className="px-2  max-sm:p-0 w-7 max-sm:w-3  "
                   />
                 </th>
                 <th className="py-2 px-4 font-semibold  max-sm:text-xxs max-sm:px-2 max-xs:px-1">
