@@ -11,16 +11,23 @@ function Wrapper({ children }) {
     !isLargeScreen && setIsNavOpen((prev) => !prev);
   };
 
+  
   useEffect(() => {
+    setScreenWidth(()=>window.innerWidth)
+    setIsLargeScreen(window.innerWidth >= 1024)
+
 
     const handleResize = () => {
       setIsLargeScreen(window.innerWidth >= 1024); // Adjust for your breakpoint
-      setScreenWidth(()=>window.innerWidth)
+
+      
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  console.log(screenWidth)
 
   return (
     <div className="relative flex h-screen bg-gray-100 font-sans">

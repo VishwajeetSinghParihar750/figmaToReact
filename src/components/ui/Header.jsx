@@ -31,6 +31,12 @@ function Header({ onToggleNav, isNavOpen, screenWidth }) {
 
   const currentPageText = pages.find((i) => i.url == url)?.text;
 
+  console.log(
+    isNavOpen,
+    screenWidth < 740,
+    isNavOpen && screenWidth < 740 ? "hidden" : ""
+  );
+
   return (
     <div
       className={`h-20 bg-white flex items-center justify-between flex-1  transition-all duration-300 ${
@@ -44,7 +50,7 @@ function Header({ onToggleNav, isNavOpen, screenWidth }) {
           className="mr-4 cursor-pointer"
           onClick={onToggleNav}
         />
-        <div className="text-lg xs:hidden mx-auto translate-x-[10%]">
+        <div className={`text-lg xs:hidden mx-auto translate-x-[10%] ${isNavOpen && "hidden"}`}>
           {currentPageText}
         </div>
 

@@ -1,5 +1,22 @@
+import zIndex from "@mui/material/styles/zIndex";
 import React, { useState } from "react";
 import Modal from "react-modal";
+
+const customStyles = {
+  overlay: { background: "rgba(0, 0, 0, .5)", zIndex: "100" },
+
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    borderRadius: "20px",
+  },
+};
+
+Modal.setAppElement("#root");
 
 function AddWalletModal({ isOpen, onRequestClose, onSubmit }) {
   const [selectedImage, setSelectedImage] = useState("/solanaCry.svg");
@@ -39,18 +56,8 @@ function AddWalletModal({ isOpen, onRequestClose, onSubmit }) {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      style={{
-        overlay: { background: "rgba(0, 0, 0, .5)" },
-        content: {
-          width: "500px",
-          height: "520px",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          translate: "-50% -50%",
-          borderRadius: "10px",
-        },
-      }}
+      style={customStyles}
+      contentLabel="Example Modal"
     >
       <div className="w-full h-full bg-white rounded-lg">
         <div className="flex justify-between items-center mb-4">
@@ -76,7 +83,7 @@ function AddWalletModal({ isOpen, onRequestClose, onSubmit }) {
                 return (
                   <div
                     key={index}
-                    className="relative cursor-pointer mx-3"
+                    className="relative cursor-pointer mx-3 max-xs:mx-1"
                     onClick={() => handleImageClick(src, chainName)}
                   >
                     <div
