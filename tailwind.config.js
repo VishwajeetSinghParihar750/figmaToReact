@@ -9,6 +9,12 @@ export default {
         winner2: "#C9FDE4",
         winner3: "#EAFECB",
       },
+      screens: {
+        xs: "500px",
+      },
+      fontSize: {
+        xxs: "10px",
+      },
     },
   },
   plugins: [],

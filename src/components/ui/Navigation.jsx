@@ -64,7 +64,7 @@ function Navigation(props) {
   const url = location.pathname;
 
   return (
-    <nav className="mb-4">
+    <nav className="mb-4 ">
       {navItems.map((item, i) => {
         let isSelected = item.url == url;
         return (
