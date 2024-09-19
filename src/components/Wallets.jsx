@@ -5,8 +5,11 @@ import AddWalletModal from "./ui/AddWalletModal";
 import EditWalletModal from "./ui/EditWalletModal"; // Import EditWalletModal
 import WalletCard from "./ui/WalletCard";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 function Wallets() {
+  const { user } = useAuth();
+
   const [wallets, setWallets] = useState([]);
   const [currentWallet, setCurrentWallet] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -15,7 +18,8 @@ function Wallets() {
   const fetchWallets = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/wallets`
+        `${import.meta.env.VITE_BACKEND_URL}/wallets`,
+        { withCredentials: true }
       );
       setWallets(response.data);
     } catch (error) {
@@ -31,7 +35,8 @@ function Wallets() {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/wallets`,
-        newWallet
+        newWallet,
+        { withCredentials: true }
       );
       setWallets([response.data, ...wallets]);
     } catch (error) {
@@ -44,7 +49,8 @@ function Wallets() {
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/wallets/${currentWallet.id}`,
-        updatedWallet
+        updatedWallet,
+        { withCredentials: true }
       );
       setWallets(
         wallets.map((wallet) =>
@@ -59,7 +65,9 @@ function Wallets() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/wallets/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/wallets/${id}`, {
+        withCredentials: true,
+      });
       setWallets(wallets.filter((wallet) => wallet.id !== id));
     } catch (error) {
       console.error("Error deleting wallet:", error);
@@ -94,8 +102,9 @@ function Wallets() {
         <div className="mx-10 mb-8 max-sm:mb-4 max-sm:mx-5 flex items-center justify-between">
           <h2 className="text-3xl text-gray-800 max-xs:hidden">Wallets</h2>
           <button
-            className="px-6 py-3 bg-orangeNew text-white flex items-center justify-center rounded-lg font-semibold max-xs:flex-1"
+            className="px-6 py-3 bg-orangeNew disabled:bg-opacity-70 text-white flex items-center justify-center rounded-lg font-semibold max-xs:flex-1"
             onClick={openAddModal}
+            disabled={!user}
           >
             <img src="/plusWhite.svg" alt="" className="mr-2" />
             <span>Add New Wallet</span>

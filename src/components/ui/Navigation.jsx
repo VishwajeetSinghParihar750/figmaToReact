@@ -1,5 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import { useAuth } from "../../context/AuthContext";
 
 const navItems = [
   {
@@ -43,25 +46,36 @@ const navItems = [
     url: "/referral",
   },
 ];
-const navItems2 = [
-  {
-    name: "settings",
-    text: "Settings",
-    image: "/settings.svg",
-    selImage: "/settingsSel.svg",
-  },
-  {
-    name: "Login",
-    text: "Login",
-    image: "/discordIcon.svg",
-    selImage: "/logoutSel.svg",
-  },
-];
 
 function Navigation(props) {
   const location = useLocation();
 
+  const { user, loading, login, logout } = useAuth();
+
+  const navItems2 = [
+    {
+      name: "settings",
+      text: "Settings",
+      image: "/settings.svg",
+      selImage: "/settingsSel.svg",
+    },
+    {
+      name: user ? "Logout" : "Login",
+      text: user ? "Logout" : "Login",
+      image: "/discordIcon.svg",
+      selImage: "/logoutSel.svg",
+    },
+  ];
+
   const url = location.pathname;
+
+  const handleDiscordLoginLogout = async () => {
+    if (user) {
+      await logout();
+    } else {
+      login();
+    }
+  };
 
   return (
     <nav className="mb-4 ">
@@ -131,17 +145,12 @@ function Navigation(props) {
           <span className="ml-2 ">{navItems2[0].text}</span>
         </div>
       </Link>
-      <Link to={navItems2[1].url} className="relative flex items-center ">
-        <div
-          className="py-2 px-4 no-underline flex items-center mx-6 w-60 rounded-lg"
-          style={{
-            backgroundColor: "#7289da", // Discord's primary blue
-            color: "white",
-            fontWeight: "600",
-            borderRadius: "12px", // Increased border radius for a rounded look
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)", // Add subtle shadow for depth
-          }}
-        >
+      <Link
+        to={navItems2[1].url}
+        className="relative flex items-center "
+        onClick={handleDiscordLoginLogout}
+      >
+        <div className=" py-[10px] px-3 no-underline text-gray-700 rounded flex items-center mx-6 w-60">
           <img
             src={navItems2[1].image}
             alt=""
