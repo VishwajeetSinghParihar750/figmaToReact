@@ -1,5 +1,9 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
+import Avatar from "react-avatar";
+import { borderRadius, fontWeight, height, width } from "@mui/system";
 
 const pages = [
   {
@@ -29,6 +33,9 @@ function Header({ onToggleNav, isNavOpen, screenWidth }) {
   const location = useLocation();
   const url = location.pathname;
 
+  const { user } = useAuth();
+  console.log(user);
+
   const currentPageText = pages.find((i) => i.url == url)?.text;
 
   console.log(
@@ -43,14 +50,18 @@ function Header({ onToggleNav, isNavOpen, screenWidth }) {
         isNavOpen ? "ml-64" : "ml-0"
       }`}
     >
-      <div className="flex items-center mx-10 max-sm:justify-between max-xs:flex-1  ">
+      <div className="flex items-center mx-10 max-xs:mx-5 max-sm:justify-between max-xs:flex-1  ">
         <img
           src="/options.svg"
           alt=""
-          className="mr-4 cursor-pointer"
+          className="mr-4 cursor-pointer lg:hidden"
           onClick={onToggleNav}
         />
-        <div className={`text-lg xs:hidden mx-auto translate-x-[10%] ${isNavOpen && "hidden"}`}>
+        <div
+          className={`text-lg xs:hidden mx-auto translate-x-[10%] ${
+            isNavOpen && "hidden"
+          }`}
+        >
           {currentPageText}
         </div>
 
@@ -70,12 +81,25 @@ function Header({ onToggleNav, isNavOpen, screenWidth }) {
         </div>
       </div>
       <div
-        className={`flex items-center mr-10  ${
+        className={`flex items-center mr-10 max-xs:mr-5  ${
           isNavOpen && screenWidth < 740 ? "hidden" : ""
         } `}
       >
-        <img src="/user1.svg" alt="" className="w-10 h-10 rounded-full" />
-        <span className="font-medium mx-3 max-sm:hidden">Username</span>
+        {/* <Avatar name="boo" /> */}
+        <Avatar
+          round
+          size="40"
+          src={
+            user?.avatar
+              ? `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}?size=128`
+              : ""
+          }
+          name={user?.username || "Username"}
+        />
+        {/* <img  alt="" className="w-10 h-10 rounded-full" /> */}
+        <span className="font-medium mx-3 max-sm:hidden">
+          {user ? user.username : "Username"}
+        </span>
         <img src="/downArrow.svg" alt="" className="max-sm:hidden" />
       </div>
     </div>

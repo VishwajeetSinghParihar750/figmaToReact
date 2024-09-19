@@ -38,7 +38,7 @@ function Wrapper({ children }) {
         } z-50`}
       >
         <h1 className="font-bold my-12 mx-4">
-          <img src="/VANGUARD.svg" alt="" />
+          <img src="/VANGUARD.svg" alt=""  className="mx-auto"/>
         </h1>
 
         <Navigation />

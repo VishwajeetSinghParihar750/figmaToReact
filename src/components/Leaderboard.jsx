@@ -382,13 +382,13 @@ const Leaderboard = () => {
                 </span>
               </div>
 
-              <div className="relative inline-block text-left">
+              <div className="relative inline-block text-left max-xs:hidden">
                 <button
                   onClick={toggleDropdown}
                   className="flex items-center border text-sm font-medium bg-gray-50 text-black border-orange-500 px-4 py-1 rounded hover:bg-gray-100 focus:outline-none"
                 >
                   Filter by:{" "}
-                  <span className="text-orange-500 ml-2">{selected}</span>
+                  <span className="text-orange-500 ml-2">{selected}</span> <img src="" alt="" /> <img src="/downArrowOrange.svg" alt="" className="ml-1"/>
                 </button>
                 {isOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-100 border border-gray-200 rounded shadow-lg z-10">

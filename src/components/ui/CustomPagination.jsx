@@ -22,7 +22,7 @@ const CustomPagination = ({ currentPage, totalPages, handlePageChange }) => {
   return (
     <div className="flex items-center justify-center space-x-2">
       <button
-        className={`px-3 py-2 rounded ${
+        className={`px-3 py-1 rounded ${
           currentPage === 1 ? "cursor-not-allowed" : ""
         }`}
         onClick={() => handlePageChange(currentPage - 1)}
@@ -34,7 +34,7 @@ const CustomPagination = ({ currentPage, totalPages, handlePageChange }) => {
       {pageNumbers.map((number, index) => (
         <button
           key={index}
-          className={`px-3 font-semibold py-2 rounded ${
+          className={`px-3 font-semibold py-[3px] rounded ${
             number === currentPage
               ? "bg-orangeNew text-white"
               : number === "..."
@@ -49,7 +49,7 @@ const CustomPagination = ({ currentPage, totalPages, handlePageChange }) => {
       ))}
 
       <button
-        className={`px-3 py-2 rounded ${
+        className={`px-3 py-1 rounded ${
           currentPage === totalPages ? "cursor-not-allowed" : ""
         }`}
         onClick={() => handlePageChange(currentPage + 1)}

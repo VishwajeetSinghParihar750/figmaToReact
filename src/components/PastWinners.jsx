@@ -278,17 +278,24 @@ const PastWinners = () => {
     currentPage * rowsPerPage
   );
 
-  //
-
-  const [animationKey, setAnimationKey] = useState(true);
-  const [visible, setVisible] = useState(true);
 
   const handleTimeChange = (newTime) => {
     setTime(newTime);
-    setVisible(false); // Hide the component
-    setAnimationKey((prevKey) => prevKey + 1); // Update the key to force re-render
-    setTimeout(() => setVisible(true), 0); // Show the component again
   };
+
+
+  //
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState("Win Rate");
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const handleSelect = (item) => {
+    setSelected(item);
+    setIsOpen(false);
+  };
+
 
   return (
     <Wrapper>
@@ -568,9 +575,37 @@ const PastWinners = () => {
                   Ranks are based on total volume of coins traded
                 </span>
               </div>
-              <button className="border text-sm font-medium border-orangeNew  px-4 py-1 rounded max-sm:hidden ">
-                Filter by: <span className="text-orangeNew"> Win Rate</span>
-              </button>
+              <div className="relative inline-block text-left max-xs:hidden">
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center border text-sm font-medium bg-gray-50 text-black border-orange-500 px-4 py-1 rounded hover:bg-gray-100 focus:outline-none"
+                >
+                  Filter by:{" "}
+                  <span className="text-orange-500 ml-2">{selected}</span> <img src="" alt="" /> <img src="/downArrowOrange.svg" alt="" className="ml-1"/>
+                </button>
+                {isOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-100 border border-gray-200 rounded shadow-lg z-10">
+                    <div
+                      onClick={() => handleSelect("Win Rate")}
+                      className="cursor-pointer px-4 py-2 hover:bg-gray-200"
+                    >
+                      Win Rate
+                    </div>
+                    <div
+                      onClick={() => handleSelect("AVG. ROI")}
+                      className="cursor-pointer px-4 py-2 hover:bg-gray-200"
+                    >
+                      AVG. ROI
+                    </div>
+                    <div
+                      onClick={() => handleSelect("TOTAL VOL. TRADED")}
+                      className="cursor-pointer px-4 py-2 hover:bg-gray-200"
+                    >
+                      TOTAL VOL. TRADED
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <table className="w-full text-left border-separate border-spacing-y-2 border-spacing-x-0 max-sm:text-sm">
