@@ -147,18 +147,12 @@ function Navigation(props) {
       </Link>
       <Link
         to={navItems2[1].url}
-        className="relative flex items-center "
+        className="relative flex items-center"
         onClick={handleDiscordLoginLogout}
       >
         <div className=" py-[10px] px-3 no-underline text-gray-700 rounded flex items-center mx-6 w-60">
-          <img
-            src={navItems2[1].image}
-            alt=""
-            className="px-2 w-10"
-            style={{ borderRadius: "50%" }} // Make image circular
-          />
-          <span className="ml-3 text-lg">{navItems2[1].text}</span>{" "}
-          {/* Adjusted spacing and font size */}
+          <img src={navItems2[1].image} alt="" className="px-2 w-9" />
+          <span className="ml-2">{navItems2[1].text}</span>{" "}
         </div>
       </Link>
     </nav>
